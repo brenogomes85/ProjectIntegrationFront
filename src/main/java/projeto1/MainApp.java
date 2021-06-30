@@ -1,4 +1,4 @@
-package projeto1;
+package main.java.projeto1;
 
 import java.io.IOException;
 
@@ -36,7 +36,7 @@ public class MainApp extends Application {
 		try {
 			//Carrega o principal do arquivo fxml
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("view/WindowView.fxml"));
+			loader.setLocation(MainApp.class.getResource("/projeto1/view/WindowView.fxml"));
 			AnchorPane windowView = (AnchorPane) loader.load();
 			
 			//Mostra a scene contendo o arquivo principal.
