@@ -56,7 +56,7 @@ public class WindowViewController {
     
     	try {
     		MetersService ms = new MetersService();
-    		
+    		 
     		String aux = ""+ms.findById(1);
     		String aux2 = ""+ms.findById(15);
     		
