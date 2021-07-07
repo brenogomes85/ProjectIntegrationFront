@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>database.to.back</groupId>
+    <artifactId>Step3-Front</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>Step3-Front</name>
+    <url>http://maven.apache.org</url>
+    
+    <properties>
+    	<maven.compiler.target>1.8</maven.compiler.target>
+    	<maven.compiler.source>1.8</maven.compiler.source>
+    </properties>
+    
+    <build>
+        <sourceDirectory>src</sourceDirectory>
+        <testSourceDirectory>test</testSourceDirectory>
+        <resources>
+            <resource>
+                <directory>src</directory>
+                <excludes>
+                    <exclude>**/*.java</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>libs</directory>
+                <excludes>
+                    <exclude>**/*.java</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src</directory>
+            </resource>
+        </resources>
+        
+        <plugins>
+            
+            <plugin>
+                <groupId>com.zenjava</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>8.1.4</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>javafx-packager</groupId>
+                        <artifactId>javafx-packager</artifactId>
+                        <version>1.8.0_20</version>
+                        <scope>system</scope>
+                        <systemPath>${java.home}/../lib/ant-javafx.jar</systemPath>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <!-- <mainClass>main.java.Main</mainClass> -->
+                    <mainClass>main.java.MainApp</mainClass>
+                    <vendor>Eletra Energy Solutions</vendor>
+                    <appName>IntegrationProject</appName>
+                    <nativeReleaseVersion></nativeReleaseVersion>
+                    <needShortcut>true</needShortcut>
+                    <needMenu>true</needMenu>
+                </configuration>
+                <executions>
+                    <execution>
+                        <!-- required before build-native -->
+                        <id>create-jfxjar</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build-jar</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>create-native</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build-native</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    
+    <dependencies>
+    	 <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>4.3.6.Final</version>
+         </dependency>
+         
+         <dependency>
+	        <groupId>org.postgresql</groupId>
+	        <artifactId>postgresql</artifactId>
+	        <version>9.4.1208.jre6</version>
+    	</dependency>
+    
+    	<dependency>
+	        <groupId>org.hibernate</groupId>
+	        <artifactId>hibernate-entitymanager</artifactId>
+	        <version>4.3.6.Final</version>
+    	</dependency>
+    	
+    	<dependency>
+    		<groupId>IntegrationProject</groupId>
+    		<artifactId>BackIntegrationProject</artifactId>
+    		<version>0.0.1-SNAPSHOT</version>
+    	</dependency>
+    </dependencies>
+</project>
