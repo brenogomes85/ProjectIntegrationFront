@@ -1,9 +1,13 @@
 package main.java.view;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.HibernateException;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.meters.metersapi.resources.MedidoresResource;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -18,11 +22,9 @@ import javafx.scene.control.TreeView;
 import main.model.Meters;
 import main.model.MetersService;
 
-
 public class WindowViewController {
 	
 	private List<String> linha = new ArrayList<String>();
-	private List<String> test = new ArrayList<String>();
 	
 	private ObservableList<String> obsLinha;
 	
@@ -41,9 +43,10 @@ public class WindowViewController {
     @FXML
     private Label autor;
     
+    private List<MetersView> meters;
     
     @FXML
-    private void initialize() {
+    private void initialize() throws IOException {
     	carregaLinhas();	
     	modelo.setDisable(true); //Desabilita o titledPane 'modelo' no início
     	carregaTreeView();
@@ -51,138 +54,116 @@ public class WindowViewController {
     }
        
     //Insere/Carrega as linhas de modelo (Cronos, Ares) no combobox 
-    public void carregaLinhas() {
-    	
-    
+    public void carregaLinhas() throws IOException {
+    	String aux = "";
     	try {
-    		MetersService ms = new MetersService();
-    		 
-    		String aux = ""+ms.findById(1);
-    		String aux2 = ""+ms.findById(15);
-    		
-    		String listString = String.join(",", aux);
-    		String[] test = listString.split(",");
-    		
-    		linha.add(test[1]);
-    		
-    		listString = String.join(",", aux2);
-    		test = listString.split(",");
-    		
-    		linha.add(test[1]);
-    		
-    		obsLinha = FXCollections.observableArrayList(linha);
-        	comboBoxLinhas.setItems(obsLinha);
+    		meters = GetRequestMeters.sendGET();
         	
-        	
+    		for(int i=0; i<meters.size(); i++) {
+    			aux = ""+meters.get(i).getLine();
+        		if(!linha.contains(aux))
+        			linha.add(aux);
+        	}
 
-        } catch (HibernateException exception) {
+    	} catch (HibernateException exception) {
             System.out.println("Problem creating session factory");
             exception.printStackTrace();
             throw exception;
         }
     	
-    	//comboBoxLinhas.setItems(obsLinha);
+    	obsLinha = FXCollections.observableArrayList(linha);
+       	comboBoxLinhas.setItems(obsLinha);
     }
     
     /*
     * Carrega os dados na tree view
     */
-    
     @SuppressWarnings("unchecked")
-    public TreeView<String> carregaTreeView(){
-    	 /* 
+    public TreeView<String> carregaTreeView() throws IOException {
+    	/* 
     	 * Verifica o valor selecionado no combobox e constroi a tree view
     	 * de acordo com a opção escolhida.
     	 */
     	comboBoxLinhas.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-			public void changed(ObservableValue<? extends String> options, String oldValue, String newValue) {
-				//Recebe o valor selecionado no combobox
+
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				//Recebe o valor selecionado no ComboBox
 				String linha = comboBoxLinhas.getValue();
-				System.out.println(linha);
 				
-				//Cria a raiz da Tree View
+				//Cria a raiz na TreeView
 				TreeItem raiz = new TreeItem("");
-			
+				
 				ArrayList <TreeItem> categoria = new ArrayList<TreeItem>();
 				
-				MetersService ms = new MetersService();
-				Meters meters = new Meters();
-				String teste = null;
-				
-				switch(linha){
-					case "Cronos":
-						
-						//Cria os filhos da raiz
-						TreeItem cronosOld = new TreeItem<>("Cronos Old");
-						TreeItem cronosL = new TreeItem<>("Cronos L");
-						TreeItem cronosNG = new TreeItem<>("Cronos NG");
-						
-						int cont = 1;
-						while(cont<=11){
-							String aux = ""+ms.findById(cont);
-							String listString = String.join(",", aux);
-				    		String[] test = listString.split(",");
-				    		
-				    		switch(test[2]) {
-				    			case "Cronos Old":
-				    				cronosOld.getChildren().add(new TreeItem<>(test[3]));
-				    				
-				    				break;
-				    			case "Cronos L":
-				    				cronosL.getChildren().add(new TreeItem<>(test[3]));
-				    				
-				    				break;
-				    			case "Cronos NG":
-				    				cronosNG.getChildren().add(new TreeItem<>(test[3]));
-				    				
-				    				break;
-				    		}
-				    		
-				    		cont++;
-						}
-						
-						cronosOld.setExpanded(true);
-						cronosL.setExpanded(true);
-						cronosNG.setExpanded(true);
-						
-						categoria.add(cronosOld);
-						categoria.add(cronosL);
-						categoria.add(cronosNG);
-						
-						break;
-						
-					case "Ares":
-						
-						//Cria os filhos da raiz
-						TreeItem aresTB = new TreeItem<>("Ares TB");
-						TreeItem aresTHS = new TreeItem<>("Ares THS");
-						cont = 12;
-						while(cont<=17){
-							String aux = ""+ms.findById(cont);
-							String listString = String.join(",", aux);
-				    		String[] test = listString.split(",");
-				    		
-				    		switch(test[2]) {
-				    			case "Ares TB":
-				    				aresTB.getChildren().add(new TreeItem<>(test[3]));
-				    				
-				    				break;
-				    			case "Ares THS":
-				    				aresTHS.getChildren().add(new TreeItem<>(test[3]));
-				    				
-				    				break;
-				    		}
-				    		
-				    		cont++;
-				    	}
-						
-						aresTB.setExpanded(true);
-						aresTHS.setExpanded(true);
-						
-						categoria.add(aresTB);
-						categoria.add(aresTHS);
-						
-						break;
+				try {
+					
+					meters = GetRequestMeters.sendGET();
+					
+					switch(linha) {
+						case "Cronos":
+							//Cria os filhos da raiz
+							TreeItem cronosOld = new TreeItem<>("Cronos Old");
+							TreeItem cronosL = new TreeItem<>("Cronos L");
+							TreeItem cronosNG = new TreeItem<>("Cronos NG");
+							
+							for(MetersView m : meters) {
+								
+								switch(m.getCategory()){
+									case "Cronos Old":
+										cronosOld.getChildren().add(new TreeItem<>(m.getModel()));
+										break;
+											
+									case "Cronos L":
+										cronosL.getChildren().add(new TreeItem<>(m.getModel()));
+										break;
+											
+									case "Cronos NG":
+										cronosNG.getChildren().add(new TreeItem<>(m.getModel()));
+										break;
+								}
+							}
+							
+							
+							cronosOld.setExpanded(true);
+							cronosL.setExpanded(true);
+							cronosNG.setExpanded(true);
+							
+							categoria.add(cronosOld);
+							categoria.add(cronosL);
+							categoria.add(cronosNG);
+							
+							break;
+							
+						case "Ares":
+							//Cria os filhos da raiz
+							TreeItem aresTB = new TreeItem<>("Ares TB");
+							TreeItem aresTHS = new TreeItem<>("Ares THS");
+							
+							for(MetersView m : meters) {
+								switch(m.getCategory()) {
+									case "Ares TB":			
+										aresTB.getChildren().add(new TreeItem<>(m.getModel()));
+										break;
+										
+									case "Ares THS":
+										aresTHS.getChildren().add(new TreeItem<>(m.getModel()));
+										break;
+								}
+							}
+							
+							aresTB.setExpanded(true);
+							aresTHS.setExpanded(true);
+							
+							categoria.add(aresTB);
+							categoria.add(aresTHS);
+							
+							break;
+					}
+					
+				} catch (IOException e) {
+					System.out.println("erro no request");
+					e.printStackTrace();
 				}
 				
 				//Adiciona filhas na raiz
@@ -196,11 +177,11 @@ public class WindowViewController {
 				
 				//Ativa o titledPane após carregar a tree view
 				modelo.setDisable(false);
-				
 			}
-		});
+    		
+    	});
     	
     	return treeViewModelos;
-    	
+    
     }
 }
