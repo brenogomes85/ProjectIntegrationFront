@@ -30,7 +30,7 @@ public class MainApp extends Application {
 	
 	/**
 	 * Inicializa a aplicação Principal
-	 * #######TESTE TEAM CITY#####
+	 * 
 	 */
 	public void initWindowView() {
 		try {
