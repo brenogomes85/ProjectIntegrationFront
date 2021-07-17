@@ -52,7 +52,7 @@
                 </dependencies>
                 <configuration>
                     <!-- <mainClass>main.java.Main</mainClass> -->
-                    <mainClass>main.java.MainApp</mainClass>
+                    <mainClass>projeto1.MainApp</mainClass>
                     <vendor>Eletra Energy Solutions</vendor>
                     <appName>IntegrationProject</appName>
                     <nativeReleaseVersion></nativeReleaseVersion>
