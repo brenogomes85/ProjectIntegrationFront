@@ -18,9 +18,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-//import main.model.Meters;
-//import main.model.MetersService;
-import main.java.view.MetersView;
 
 public class WindowViewController {
 	
