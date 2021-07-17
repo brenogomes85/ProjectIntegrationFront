@@ -115,11 +115,7 @@
             <artifactId>powermock-module-junit4</artifactId>
             <version>1.6.6</version>
         </dependency>
-    	<dependency>
-    		<groupId>IntegrationProject</groupId>
-    		<artifactId>BackIntegrationProject</artifactId>
-    		<version>0.0.1-SNAPSHOT</version>
-    	</dependency>
+    	
     	<dependency>
     		<groupId>com.google.code.gson</groupId>
     		<artifactId>gson</artifactId>
