@@ -8,7 +8,6 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
 public class GetRequestMeters {
@@ -26,7 +25,6 @@ public class GetRequestMeters {
 		connection.setRequestProperty("Accept", "application/json");
 			
 		int responseCode = connection.getResponseCode();
-		System.out.println("GET Response Code :: " +responseCode);
 			
 		StringBuilder content = new StringBuilder();
 		

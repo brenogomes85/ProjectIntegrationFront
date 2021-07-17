@@ -6,8 +6,7 @@ import java.util.List;
 
 import org.hibernate.HibernateException;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.meters.metersapi.resources.MedidoresResource;
+//import com.meters.metersapi.resources.MedidoresResource;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -19,8 +18,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import main.model.Meters;
-import main.model.MetersService;
+//import main.model.Meters;
+//import main.model.MetersService;
+import main.java.view.MetersView;
 
 public class WindowViewController {
 	
