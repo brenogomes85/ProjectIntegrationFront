@@ -21,29 +21,29 @@ import javafx.scene.control.TreeView;
 
 public class WindowViewController {
 	
-	private List<String> linha = new ArrayList<String>();
+	List<String> linha = new ArrayList<String>();
 	
-	private ObservableList<String> obsLinha;
+	ObservableList<String> obsLinha;
 	
     @FXML
-    private TitledPane tpLinha;
+    TitledPane tpLinha;
 
     @FXML
-    private ComboBox<String> comboBoxLinhas;
+    ComboBox<String> comboBoxLinhas;
 
     @FXML
-    private TitledPane modelo;
+    TitledPane modelo;
 
     @FXML
-    private TreeView<String> treeViewModelos;
+    TreeView<String> treeViewModelos;
 
     @FXML
-    private Label autor;
+    Label autor;
     
     private List<MetersView> meters;
     
     @FXML
-    private void initialize() throws IOException {
+    public void initialize() throws IOException {
     	carregaLinhas();	
     	modelo.setDisable(true); //Desabilita o titledPane 'modelo' no início
     	carregaTreeView();
@@ -51,9 +51,9 @@ public class WindowViewController {
     }
        
     //Insere/Carrega as linhas de modelo (Cronos, Ares) no combobox 
-    public void carregaLinhas() throws IOException {
+    public void carregaLinhas() throws IOException{
     	String aux = "";
-    	try {
+    	
     		meters = GetRequestMeters.sendGET();
         	
     		for(int i=0; i<meters.size(); i++) {
@@ -62,11 +62,6 @@ public class WindowViewController {
         			linha.add(aux);
         	}
 
-    	} catch (HibernateException exception) {
-            System.out.println("Problem creating session factory");
-            exception.printStackTrace();
-            throw exception;
-        }
     	
     	obsLinha = FXCollections.observableArrayList(linha);
        	comboBoxLinhas.setItems(obsLinha);
@@ -76,11 +71,12 @@ public class WindowViewController {
     * Carrega os dados na tree view
     */
     @SuppressWarnings("unchecked")
-    public TreeView<String> carregaTreeView() throws IOException {
+    public TreeView<String> carregaTreeView(){
     	/* 
     	 * Verifica o valor selecionado no combobox e constroi a tree view
     	 * de acordo com a opção escolhida.
     	 */
+    	
     	comboBoxLinhas.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
 
 			@Override
@@ -120,7 +116,6 @@ public class WindowViewController {
 										break;
 								}
 							}
-							
 							
 							cronosOld.setExpanded(true);
 							cronosL.setExpanded(true);
