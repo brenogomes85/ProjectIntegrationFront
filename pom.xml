@@ -54,7 +54,7 @@
                     <!-- <mainClass>main.java.Main</mainClass> -->
                     <mainClass>main.java.MainApp</mainClass>
                     <vendor>Eletra Energy Solutions</vendor>
-                    <appName>ProjectIntegration</appName>
+                    <appName>IntegrationProject</appName>
                     <nativeReleaseVersion></nativeReleaseVersion>
                     <needShortcut>true</needShortcut>
                     <needMenu>true</needMenu>
@@ -108,11 +108,6 @@
             <artifactId>powermock-module-junit4</artifactId>
             <version>1.6.6</version>
         </dependency>
-    	<dependency>
-    		<groupId>com.google.code.gson</groupId>
-    		<artifactId>gson</artifactId>
-    		<version>1.6.6</version>
-    	</dependency>
     	<dependency>
     		<groupId>com.google.code.gson</groupId>
     		<artifactId>gson</artifactId>

@@ -1,6 +1,10 @@
 package main.java;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.swing.JOptionPane;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -57,6 +61,17 @@ public class MainApp extends Application {
         }
 
     public static void main(String[] args) {
-        launch(args);
+    	try{
+    		launch(args);
+    	}catch (Exception e) {
+    	    JOptionPane.showMessageDialog(null, e.getMessage());
+    	    try {
+    	      PrintWriter pw = new PrintWriter(new File("<somefilename.txt>"));
+    	      e.printStackTrace(pw);
+    	      pw.close();
+    	    } catch (IOException e1) {
+    	    	e1.printStackTrace();
+    	    }
+    	  }
     }
 }

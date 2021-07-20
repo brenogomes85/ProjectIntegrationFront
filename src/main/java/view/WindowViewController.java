@@ -54,6 +54,7 @@ public class WindowViewController {
     public void carregaLinhas() throws IOException{
     	String aux = "";
     	
+    	try {
     		meters = GetRequestMeters.sendGET();
         	
     		for(int i=0; i<meters.size(); i++) {
@@ -61,6 +62,11 @@ public class WindowViewController {
         		if(!linha.contains(aux))
         			linha.add(aux);
         	}
+    	} catch (HibernateException exception) {
+    			System.out.println("Problem creating session factory");
+    			exception.printStackTrace();
+    			throw exception;
+    	}
 
     	
     	obsLinha = FXCollections.observableArrayList(linha);
